@@ -1,0 +1,34 @@
+[build]
+  publish = "dist/public"
+  command = "chmod +x build-netlify.sh && ./build-netlify.sh"
+
+[dev]
+  command = "npm run dev"
+  port = 5000
+  publish = "dist/public"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["@neondatabase/serverless"]
+
+[[functions]]
+  name = "api"
+  included_files = ["server/**"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
