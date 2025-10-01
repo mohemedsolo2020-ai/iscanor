@@ -12,8 +12,7 @@
   node_bundler = "esbuild"
   external_node_modules = ["@neondatabase/serverless"]
 
-[[functions]]
-  name = "api"
+[functions."api"]
   included_files = ["server/**"]
 
 [[redirects]]
